@@ -1,6 +1,6 @@
 import { Client, GatewayIntentBits } from "discord.js";
 
-const client = new Client({
+const discordClient = new Client({
   intents: [
     GatewayIntentBits.Guilds,
     GatewayIntentBits.GuildMessages,
@@ -9,4 +9,4 @@ const client = new Client({
   ],
 });
 
-export default client;
+export default discordClient;
