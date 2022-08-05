@@ -9,6 +9,11 @@ export interface CloverCommand {
   run: (client: Discord.Client, message: Discord.Message, args: string[]) => void;
 }
 
+/**
+ * Load commands and aliases into the client.
+ *
+ * @param client The Discord client
+ */
 export default async function loadCommands(client: Discord.Client<boolean>) {
   const path = __dirname;
   const files = await readdir(path);
