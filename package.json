@@ -1,25 +1,20 @@
 {
-  "name": "distube-example",
+  "name": "clover",
   "version": "1.0.0",
-  "description": "DisTube example music bot.",
+  "description": "A(nother) Discord music bot.",
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
     "lint": "eslint .",
     "lint:fix": "eslint --fix .",
-    "p": "prettier . --write",
-    "postinstall": "husky install"
+    "format": "prettier . --write"
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/distubejs/example.git"
+    "url": "https://github.com/dablenparty/clover-bot.git"
   },
-  "author": "Skick",
+  "author": "dablenparty",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/distubejs/example/issues"
-  },
-  "homepage": "https://github.com/distubejs/example#readme",
   "dependencies": {
     "@discordjs/opus": "^0.8.0",
     "@discordjs/voice": "^0.11.0",
@@ -37,7 +32,6 @@
     "eslint-plugin-import": "^2.26.0",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-promise": "^6.0.0",
-    "husky": "^8.0.1",
     "nano-staged": "^0.8.0",
     "prettier": "^2.7.1"
   },
