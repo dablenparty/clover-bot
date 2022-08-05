@@ -9,4 +9,6 @@ const discordClient = new Client({
   ],
 });
 
+discordClient.on("ready", () => console.log(`${discordClient.user?.tag ?? "Clover"} is ready to play music.`));
+
 export default discordClient;
