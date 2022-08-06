@@ -25,7 +25,7 @@ const command: CloverCommand = {
       });
     queue.seek(time);
     message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Seeking to ${time} seconds`).setColor("#00ff00")],  
+      embeds: [new EmbedBuilder().setTitle(`Seeking to ${time} seconds`).setColor("#00ff00")],
     });
   },
 };

@@ -8,9 +8,10 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
-    if (!queue) return message.channel.send({
-      embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
-    });
+    if (!queue)
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+      });
     const song = queue.songs[0];
     message.channel.send({
       embeds: [
