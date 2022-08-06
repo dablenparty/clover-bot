@@ -2,9 +2,9 @@
   "name": "clover",
   "version": "1.0.0",
   "description": "A(nother) Discord music bot.",
-  "main": "index.js",
+  "main": "dist/src/index.js",
   "scripts": {
-    "start": "node index.js",
+    "start": "node dist/src/index.js",
     "lint": "eslint .",
     "build": "tsc -p tsconfig.json",
     "lint:fix": "eslint --fix .",
@@ -26,9 +26,13 @@
     "distube": "^4.0.2",
     "dotenv": "^16.0.1",
     "eslint-config-prettier": "^8.5.0",
+    "ffmpeg-static": "^5.0.2",
+    "fluent-ffmpeg": "^2.1.2",
     "libsodium-wrappers": "^0.7.10"
   },
   "devDependencies": {
+    "@types/ffmpeg-static": "^3.0.1",
+    "@types/fluent-ffmpeg": "^2.1.20",
     "eslint": "^8.20.0",
     "eslint-config-standard": "^17.0.0",
     "eslint-plugin-import": "^2.26.0",
