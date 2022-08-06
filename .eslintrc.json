@@ -1,5 +1,4 @@
 {
-  "extends": "standard",
   "parserOptions": {
     "ecmaVersion": 11,
     "sourceType": "module"
