@@ -10,7 +10,28 @@ const discordClient = new Client({
   ],
 });
 
-discordClient.on("ready", () => console.log(`${discordClient.user?.tag ?? "Clover"} is ready to play music.`));
+discordClient
+  .on("ready", () => console.log(`${discordClient.user?.tag ?? "Clover"} is ready to play music.`))
+  .on("messageCreate", async (message) => {
+    if (message.author.bot || !message.guild) return;
+    const prefix = config.prefix;
+    if (!message.content.startsWith(prefix)) return;
+    const args = message.content.slice(prefix.length).trim().split(/ +/g);
+    const command = args.shift()?.toLowerCase() ?? "";
+    const cmd =
+      discordClient.commands.get(command) || discordClient.commands.get(discordClient.aliases.get(command) ?? "");
+    if (!cmd) return;
+    if (cmd.inVoiceChannel && !message.member?.voice.channel) {
+      await message.channel.send(`${discordClient.emotes.error} | You must be in a voice channel!`);
+      return;
+    }
+    try {
+      cmd.run(discordClient, message, args);
+    } catch (e) {
+      console.error(e);
+      message.channel.send(`${discordClient.emotes.error} | Error: \`${e}\``);
+    }
+  });
 
 discordClient.emotes = config.emoji;
 
