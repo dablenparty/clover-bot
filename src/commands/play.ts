@@ -1,4 +1,4 @@
-import { GuildTextBasedChannel } from "discord.js";
+import { EmbedBuilder, GuildTextBasedChannel } from "discord.js";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -8,10 +8,15 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const string = args.join(" ");
-    // TODO: switch to embeds
-    if (!string) return message.channel.send(`${client.emotes.error} | Please enter a song url or query to search.`);
+    if (!string)
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("Please provide a link to a song!").setColor("#ff0000")],
+      });
     const voiceChannel = message.member?.voice.channel;
-    if (!voiceChannel) return message.channel.send(`${client.emotes.error} | You must be in a voice channel!`);
+    if (!voiceChannel)
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("Please join a voice channel first!").setColor("#ff0000")],
+      });
     // the type cast should work as this bot should only be used in a guild
     distubeClient.play(voiceChannel, string, {
       member: message.member,

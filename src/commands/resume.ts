@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -7,12 +8,19 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);
-    if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`);
+    if (!queue)
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+      });
     if (queue.paused) {
       queue.resume();
-      message.channel.send("Resumed the song for you :)");
+      message.channel.send({
+        embeds: [new EmbedBuilder().setTitle("Resumed").setColor("#00ff00")],
+      });
     } else {
-      message.channel.send("The queue is not paused!");
+      message.channel.send({
+        embeds: [new EmbedBuilder().setTitle("Not paused").setColor("#ff0000")],
+      });
     }
   },
 };

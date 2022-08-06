@@ -1,5 +1,5 @@
 import { Client, GatewayIntentBits } from "discord.js";
-import config from "../../config.json";
+import config from "../config.json";
 
 const discordClient = new Client({
   intents: [
@@ -23,7 +23,7 @@ discordClient
     if (!cmd) return;
     // TODO: change error message
     if (cmd.inVoiceChannel && !message.member?.voice.channel) {
-      await message.channel.send(`${discordClient.emotes.error} | You must be in a voice channel!`);
+      await message.channel.send("You must be in a voice channel!");
       return;
     }
     try {

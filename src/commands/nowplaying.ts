@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -7,9 +8,19 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
-    if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`);
+    if (!queue) return message.channel.send({
+      embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+    });
     const song = queue.songs[0];
-    message.channel.send(`${client.emotes.play} | I'm playing **\`${song.name}\`**, by ${song.user}`);
+    message.channel.send({
+      embeds: [
+        new EmbedBuilder()
+          .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
+          .setURL(song.url)
+          .setThumbnail(song.thumbnail ?? null)
+          .setColor("#00ff00"),
+      ],
+    });
   },
 };
 

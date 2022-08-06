@@ -1,14 +1,34 @@
 // import SoundCloudPlugin from "@distube/soundcloud";
 // import SpotifyPlugin from "@distube/spotify";
 import { YtDlpPlugin } from "@distube/yt-dlp";
+import { EmbedBuilder } from "discord.js";
 import DisTube, { Queue } from "distube";
-import discordClient from "./discord/client";
 import config from "../config.json";
+import discordClient from "./discord";
 
-const status = (queue: Queue) =>
-  `Volume: \`${queue.volume}%\` | Filter: \`${queue.filters.names.join(", ") || "Off"}\` | Loop: \`${
-    queue.repeatMode ? (queue.repeatMode === 2 ? "All Queue" : "This Song") : "Off"
-  }\` | Autoplay: \`${queue.autoplay ? "On" : "Off"}\``;
+const embedStatus = (queue: Queue, builder: EmbedBuilder): EmbedBuilder =>
+  builder.addFields([
+    {
+      name: "Volume",
+      value: `\`${queue.volume}%\``,
+      inline: true,
+    },
+    {
+      name: "Filter",
+      value: `\`${queue.filters.names.join(", ") || "Off"}\``,
+      inline: true,
+    },
+    {
+      name: "Loop",
+      value: `\`${queue.repeatMode ? (queue.repeatMode === 2 ? "All Queue" : "This Song") : "Off"}\``,
+      inline: true,
+    },
+    {
+      name: "Autoplay",
+      value: `\`${queue.autoplay ? "On" : "Off"}\``,
+      inline: true,
+    },
+  ]);
 
 const distubeClient = new DisTube(discordClient, {
   leaveOnStop: true,
@@ -28,26 +48,48 @@ const distubeClient = new DisTube(discordClient, {
 //! TODO: switch everything to embeds instead of simple messages
 distubeClient
   .on("playSong", (queue, song) =>
-    queue.textChannel?.send(
-      `${config.emoji.play} | Playing \`${song.name}\` - \`${song.formattedDuration}\`\nRequested by: ${
-        song.user
-      }\n${status(queue)}`,
-    ),
+    queue.textChannel?.send({
+      embeds: [
+        embedStatus(queue, new EmbedBuilder())
+          .setTitle(`Now Playing ${song.name ?? "Unknown"}`)
+          .setURL(song.url)
+          .setImage(song.thumbnail ?? null)
+          .setColor("#00ff00"),
+      ],
+    }),
   )
   .on("addSong", (queue, song) =>
-    queue.textChannel?.send(
-      `${config.emoji.success} | Added ${song.name} - \`${song.formattedDuration}\` to the queue by ${song.user}`,
-    ),
+    queue.textChannel?.send({
+      embeds: [
+        new EmbedBuilder()
+          .setTitle(`Added ${song.name ?? "Unknown"}`)
+          .setURL(song.url)
+          .setDescription(song.formattedDuration || "")
+          .setColor("#00ff00"),
+      ],
+    }),
   )
   .on("addList", (queue, playlist) =>
-    queue.textChannel?.send(
-      `${config.emoji.success} | Added \`${playlist.name}\` playlist (${
-        playlist.songs.length
-      } songs) to queue\n${status(queue)}`,
-    ),
+    queue.textChannel?.send({
+      embeds: [
+        embedStatus(queue, new EmbedBuilder())
+          .setTitle(`Added ${playlist.name} playlist`)
+          .setURL(playlist.url ?? null)
+          .setDescription(`${playlist.songs.length} songs`)
+          .setColor("#00ff00"),
+      ],
+    }),
   )
   .on("error", (channel, e) => {
-    if (channel) channel.send(`${config.emoji.error} | An error encountered: ${e.toString().slice(0, 1974)}`);
+    if (channel)
+      channel.send({
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`${config.emoji.error} | An error encountered`)
+            .setDescription(e.toString().slice(0, 1974))
+            .setColor("#ff0000"),
+        ],
+      });
     else console.error(e);
   })
   .on("empty", (queue) => queue.textChannel?.send("Voice channel is empty! Leaving the channel..."))

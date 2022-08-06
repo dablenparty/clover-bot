@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -7,7 +8,10 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
-    if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing playing!`);
+    if (!queue)
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+      });
     let mode;
     switch (args[0]) {
       case "off":
@@ -22,7 +26,9 @@ const command: CloverCommand = {
     }
     mode = queue.setRepeatMode(mode);
     mode = mode ? (mode === 2 ? "Repeat queue" : "Repeat song") : "Off";
-    message.channel.send(`${client.emotes.repeat} | Set repeat mode to \`${mode}\``);
+    message.channel.send({
+      embeds: [new EmbedBuilder().setTitle(`Repeat mode is now ${mode}`).setColor("#00ff00")],
+    });
   },
 };
 

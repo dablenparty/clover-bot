@@ -1,3 +1,4 @@
+import { EmbedBuilder } from "discord.js";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -6,14 +7,24 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
-    if (!queue) return message.channel.send(`${client.emotes.error} | There is nothing in the queue right now!`);
+    if (!queue)
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+      });
     if (!args[0]) {
-      return message.channel.send(`${client.emotes.error} | Please provide time (in seconds) to go rewind!`);
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("Please specify a song number!").setColor("#ff0000")],
+      });
     }
     const num = Number(args[0]);
-    if (isNaN(num)) return message.channel.send(`${client.emotes.error} | Please enter a valid number!`);
+    if (isNaN(num))
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("Please specify a valid song number!").setColor("#ff0000")],
+      });
     await distubeClient.jump(message, num).then((song) => {
-      message.channel.send({ content: `Skipped to: ${song.name}` });
+      message.channel.send({
+        embeds: [new EmbedBuilder().setTitle(`Skipped to ${song.name ?? "Unknown"}`).setColor("#00ff00")],
+      });
     });
   },
 };

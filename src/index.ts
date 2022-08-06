@@ -1,6 +1,6 @@
 import { config } from "dotenv";
 import loadCommands from "./commands/commands";
-import discordClient from "./discord/client";
+import discordClient from "./discord";
 import ffmpeg from "fluent-ffmpeg";
 import ffmpegPath from "ffmpeg-static";
 config();
