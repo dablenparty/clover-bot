@@ -31,7 +31,7 @@ discordClient
       return;
     }
     try {
-      cmd.run(discordClient, message, args);
+      await cmd.run(discordClient, message, args);
     } catch (e) {
       console.error(e);
       message.channel.send(`${discordClient.emotes.error} | Error: \`${e}\``);
