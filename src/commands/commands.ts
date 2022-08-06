@@ -20,12 +20,12 @@ export default async function loadCommands(client: Discord.Client<boolean>) {
   const jsFiles = files.filter((f) => f.split(".").pop() === "js");
   if (jsFiles.length <= 0) throw new Error("Could not find any commands!");
   const commands = new Discord.Collection<string, CloverCommand>();
-  const aliases = new Discord.Collection<string, CloverCommand>();
+  const aliases = new Discord.Collection<string, string>();
   jsFiles.forEach((file) => {
     const command: CloverCommand = require(join(path, file));
     console.log(`Loaded ${file}`);
     commands.set(command.name, command);
-    if (command.aliases) command.aliases.forEach((alias) => aliases.set(alias, command));
+    if (command.aliases) command.aliases.forEach((alias) => aliases.set(alias, command.name));
   });
   client.commands = commands;
   client.aliases = aliases;
