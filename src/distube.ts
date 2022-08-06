@@ -32,6 +32,8 @@ const embedStatus = (queue: Queue, builder: EmbedBuilder): EmbedBuilder =>
 
 const distubeClient = new DisTube(discordClient, {
   leaveOnStop: true,
+  leaveOnEmpty: true,
+  leaveOnFinish: true,
   emitNewSongOnly: true,
   emitAddSongWhenCreatingQueue: false,
   emitAddListWhenCreatingQueue: false,
