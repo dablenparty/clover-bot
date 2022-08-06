@@ -4,7 +4,7 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "stop",
-  aliases: ["disconnect", "leave"],
+  aliases: ["disconnect", "leave", "clear"],
   inVoiceChannel: true,
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);
