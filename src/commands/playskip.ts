@@ -1,5 +1,6 @@
 import { EmbedBuilder, GuildTextBasedChannel } from "discord.js";
 import distubeClient from "../distube";
+import { validateURL, searchYouTubeForVideo } from "../util";
 import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
@@ -7,8 +8,8 @@ const command: CloverCommand = {
   aliases: ["ps"],
   inVoiceChannel: true,
   run: async (client, message, args) => {
-    const string = args.join(" ");
-    if (!string)
+    const query = args.join(" ");
+    if (!query)
       return message.channel.send({
         embeds: [new EmbedBuilder().setDescription("Please provide a link to a song!").setColor("#ff0000")],
       });
@@ -17,7 +18,19 @@ const command: CloverCommand = {
       return message.channel.send({
         embeds: [new EmbedBuilder().setDescription("Please join a voice channel first!").setColor("#ff0000")],
       });
-    distubeClient.play(voiceChannel, string, {
+    let playString;
+    if (validateURL(query)) {
+      playString = query;
+    } else {
+      const video = await searchYouTubeForVideo(query);
+      if (!video) {
+        return await message.channel.send({
+          embeds: [new EmbedBuilder().setDescription("No result found!").setColor("#ff0000")],
+        });
+      }
+      playString = video.url;
+    }
+    distubeClient.play(voiceChannel, playString, {
       member: message.member,
       textChannel: message.channel as GuildTextBasedChannel,
       message,
