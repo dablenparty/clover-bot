@@ -5,7 +5,8 @@ const command: CloverCommand = {
   name: "help",
   aliases: ["h", "cmd", "command"],
   run: async (client, message) => {
-    message.channel.send({
+    // TODO: add help property to CloverCommand
+    await message.channel.send({
       embeds: [
         new Discord.EmbedBuilder()
           .setTitle("Commands")

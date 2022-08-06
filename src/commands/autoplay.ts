@@ -7,12 +7,14 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);
-    if (!queue)
-      return message.channel.send({
+    if (!queue) {
+      await message.channel.send({
         embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
       });
+      return;
+    }
     const autoplay = queue.toggleAutoplay();
-    message.channel.send({
+    await message.channel.send({
       embeds: [
         new EmbedBuilder()
           .setTitle(`Autoplay is now ${autoplay ? "on" : "off"}`)

@@ -1,5 +1,4 @@
 import { EmbedBuilder, GuildTextBasedChannel } from "discord.js";
-import ytsr from "ytsr";
 import distubeClient from "../distube";
 import { searchYouTubeForVideo, validateURL } from "../util";
 import { CloverCommand } from "./commands";
@@ -10,24 +9,29 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const query = args.join(" ");
-    if (!query)
-      return message.channel.send({
+    if (!query) {
+      await message.channel.send({
         embeds: [new EmbedBuilder().setDescription("Please provide a link to a song!").setColor("#ff0000")],
       });
+      return;
+    }
     const voiceChannel = message.member?.voice.channel;
-    if (!voiceChannel)
-      return message.channel.send({
+    if (!voiceChannel) {
+      await message.channel.send({
         embeds: [new EmbedBuilder().setDescription("Please join a voice channel first!").setColor("#ff0000")],
       });
+      return;
+    }
     let playString;
     if (validateURL(query)) {
       playString = query;
     } else {
       const video = await searchYouTubeForVideo(query);
       if (!video) {
-        return await message.channel.send({
+        await message.channel.send({
           embeds: [new EmbedBuilder().setDescription("No result found!").setColor("#ff0000")],
         });
+        return;
       }
       playString = video.url;
     }

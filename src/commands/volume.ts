@@ -8,17 +8,21 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
-    if (!queue)
-      return message.channel.send({
+    if (!queue) {
+      await message.channel.send({
         embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
       });
+      return;
+    }
     const volume = parseInt(args[0]);
-    if (isNaN(volume))
-      return message.channel.send({
+    if (isNaN(volume)) {
+      await message.channel.send({
         embeds: [new EmbedBuilder().setDescription("Please provide a valid volume number!").setColor("#ff0000")],
       });
+      return;
+    }
     queue.setVolume(volume);
-    message.channel.send({
+    await message.channel.send({
       embeds: [new EmbedBuilder().setTitle(`Volume set to ${volume}`).setColor("#00ff00")],
     });
   },

@@ -7,10 +7,12 @@ const command: CloverCommand = {
   aliases: ["q"],
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
-    if (!queue)
-      return message.channel.send({
+    if (!queue) {
+      await message.channel.send({
         embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
       });
+      return;
+    }
     const maxPages = Math.ceil(queue.songs.length / 10);
     // effective pagination
     let page = 0;
@@ -27,8 +29,8 @@ const command: CloverCommand = {
     // TODO: show time left
     let queueString = `**Now playing:** ${nowPlaying.name}\n\n**Up next:**\n`;
     const mappedPage = thisPage.map((song, i) => `${i + page}) \`${song.name}\` - \`${song.formattedDuration}\``);
-    queueString += mappedPage.length !== 0 ? mappedPage.join("\n") : "Nothing!";
-    message.channel.send({
+    queueString += mappedPage.length === 0 ? "Nothing!" : mappedPage.join("\n");
+    await message.channel.send({
       embeds: [
         new EmbedBuilder()
           .setTitle(`${message.guild?.name ?? "This Server"}'s Queue`)

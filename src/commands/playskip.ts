@@ -9,28 +9,33 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const query = args.join(" ");
-    if (!query)
-      return message.channel.send({
+    if (!query) {
+      await message.channel.send({
         embeds: [new EmbedBuilder().setDescription("Please provide a link to a song!").setColor("#ff0000")],
       });
+      return;
+    }
     const voiceChannel = message.member?.voice.channel;
-    if (!voiceChannel)
-      return message.channel.send({
+    if (!voiceChannel) {
+      await message.channel.send({
         embeds: [new EmbedBuilder().setDescription("Please join a voice channel first!").setColor("#ff0000")],
       });
+      return;
+    }
     let playString;
     if (validateURL(query)) {
       playString = query;
     } else {
       const video = await searchYouTubeForVideo(query);
       if (!video) {
-        return await message.channel.send({
+        await message.channel.send({
           embeds: [new EmbedBuilder().setDescription("No result found!").setColor("#ff0000")],
         });
+        return;
       }
       playString = video.url;
     }
-    distubeClient.play(voiceChannel, playString, {
+    await distubeClient.play(voiceChannel, playString, {
       member: message.member,
       textChannel: message.channel as GuildTextBasedChannel,
       message,
