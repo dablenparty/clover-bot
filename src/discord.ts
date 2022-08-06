@@ -11,7 +11,11 @@ const discordClient = new Client({
 });
 
 discordClient
-  .on("ready", () => console.log(`${discordClient.user?.tag ?? "Clover"} is ready to play music.`))
+  .on("ready", () => {
+    console.log(`${discordClient.user?.tag ?? "Clover"} is ready to play music.`);
+    console.log(`${discordClient.guilds.cache.size} guilds are connected.`);
+    console.log(`Command prefix: ${config.prefix}`);
+  })
   .on("messageCreate", async (message) => {
     if (message.author.bot || !message.guild) return;
     const prefix = config.prefix;
