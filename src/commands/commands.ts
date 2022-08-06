@@ -21,13 +21,13 @@ export default async function loadCommands(client: Discord.Client<boolean>) {
   if (jsFiles.length <= 0) throw new Error("Could not find any commands!");
   const commands = new Discord.Collection<string, CloverCommand>();
   const aliases = new Discord.Collection<string, string>();
-  jsFiles.forEach((file) => {
-    const command: CloverCommand | undefined = require(join(path, file))?.default;
+  for (const file of jsFiles) {
+    const command: CloverCommand | undefined = (await import(join(path, file)))?.default;
     if (!command) return console.error(`Could not load command ${file}`);
-    console.log(`Loaded ${file}`);
     commands.set(command.name, command);
     if (command.aliases) command.aliases.forEach((alias) => aliases.set(alias, command.name));
-  });
+  }
+  console.log("loaded commands: ", [...commands.keys()]);
   client.commands = commands;
   client.aliases = aliases;
 }
