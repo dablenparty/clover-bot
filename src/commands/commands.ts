@@ -22,7 +22,8 @@ export default async function loadCommands(client: Discord.Client<boolean>) {
   const commands = new Discord.Collection<string, CloverCommand>();
   const aliases = new Discord.Collection<string, string>();
   jsFiles.forEach((file) => {
-    const command: CloverCommand = require(join(path, file));
+    const command: CloverCommand | undefined = require(join(path, file))?.default;
+    if (!command) return console.error(`Could not load command ${file}`);
     console.log(`Loaded ${file}`);
     commands.set(command.name, command);
     if (command.aliases) command.aliases.forEach((alias) => aliases.set(alias, command.name));
