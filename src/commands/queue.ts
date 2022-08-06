@@ -26,9 +26,8 @@ const command: CloverCommand = {
     const thisPage = queue.songs.slice(page, page + 10);
     // TODO: show time left
     let queueString = `**Now playing:** ${nowPlaying.name}\n\n**Up next:**\n`;
-    queueString += thisPage
-      .map((song, i) => `${i + page}) \`${song.name}\` - \`${song.formattedDuration}\``)
-      .join("\n");
+    const mappedPage = thisPage.map((song, i) => `${i + page}) \`${song.name}\` - \`${song.formattedDuration}\``);
+    queueString += mappedPage.length !== 0 ? mappedPage.join("\n") : "Nothing!";
     message.channel.send({
       embeds: [
         new EmbedBuilder()
