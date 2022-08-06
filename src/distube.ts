@@ -49,42 +49,48 @@ const distubeClient = new DisTube(discordClient, {
 
 //! TODO: switch everything to embeds instead of simple messages
 distubeClient
-  .on("playSong", (queue, song) =>
-    queue.textChannel?.send({
-      embeds: [
-        embedStatus(queue, new EmbedBuilder())
-          .setTitle(`Now Playing ${song.name ?? "Unknown"}`)
-          .setURL(song.url)
-          .setImage(song.thumbnail ?? null)
-          .setColor("#00ff00"),
-      ],
-    }),
+  .on(
+    "playSong",
+    async (queue, song) =>
+      await queue.textChannel?.send({
+        embeds: [
+          embedStatus(queue, new EmbedBuilder())
+            .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
+            .setURL(song.url)
+            .setImage(song.thumbnail ?? null)
+            .setColor("#00ff00"),
+        ],
+      }),
   )
-  .on("addSong", (queue, song) =>
-    queue.textChannel?.send({
-      embeds: [
-        new EmbedBuilder()
-          .setTitle(`Added ${song.name ?? "Unknown"}`)
-          .setURL(song.url)
-          .setDescription(song.formattedDuration || "")
-          .setColor("#00ff00"),
-      ],
-    }),
+  .on(
+    "addSong",
+    async (queue, song) =>
+      await queue.textChannel?.send({
+        embeds: [
+          new EmbedBuilder()
+            .setTitle(`Added ${song.name ?? "Unknown"}`)
+            .setURL(song.url)
+            .setDescription(song.formattedDuration || "")
+            .setColor("#00ff00"),
+        ],
+      }),
   )
-  .on("addList", (queue, playlist) =>
-    queue.textChannel?.send({
-      embeds: [
-        embedStatus(queue, new EmbedBuilder())
-          .setTitle(`Added ${playlist.name} playlist`)
-          .setURL(playlist.url ?? null)
-          .setDescription(`${playlist.songs.length} songs`)
-          .setColor("#00ff00"),
-      ],
-    }),
+  .on(
+    "addList",
+    async (queue, playlist) =>
+      await queue.textChannel?.send({
+        embeds: [
+          embedStatus(queue, new EmbedBuilder())
+            .setTitle(`Added ${playlist.name} playlist`)
+            .setURL(playlist.url ?? null)
+            .setDescription(`${playlist.songs.length} songs`)
+            .setColor("#00ff00"),
+        ],
+      }),
   )
-  .on("error", (channel, e) => {
+  .on("error", async (channel, e) => {
     if (channel)
-      channel.send({
+      await channel.send({
         embeds: [
           new EmbedBuilder()
             .setTitle(`${config.emoji.error} | An error encountered`)
@@ -94,10 +100,25 @@ distubeClient
       });
     else console.error(e);
   })
-  .on("empty", (queue) => queue.textChannel?.send("Voice channel is empty! Leaving the channel..."))
-  .on("searchNoResult", (message, query) =>
-    message.channel.send(`${config.emoji.error} | No result found for \`${query}\`!`),
+  .on(
+    "empty",
+    async (queue) =>
+      await queue.textChannel?.send({
+        embeds: [new EmbedBuilder().setTitle("I don't stay in empty voice channels").setColor("#ff0000")],
+      }),
   )
-  .on("finish", (queue) => queue.textChannel?.send("Finished!"));
-
+  .on(
+    "searchNoResult",
+    async (message, query) =>
+      await message.channel.send({
+        embeds: [new EmbedBuilder().setTitle(`No results for "${query}"!`).setColor("#ff0000")],
+      }),
+  )
+  .on(
+    "finish",
+    async (queue) =>
+      await queue.textChannel?.send({
+        embeds: [new EmbedBuilder().setTitle("Queue finished, leaving...").setColor("#00ff00")],
+      }),
+  );
 export default distubeClient;
