@@ -21,10 +21,13 @@ const command: CloverCommand = {
       return message.channel.send({
         embeds: [new EmbedBuilder().setDescription("Please specify a valid song number!").setColor("#ff0000")],
       });
-    await distubeClient.jump(message, num).then((song) => {
-      message.channel.send({
-        embeds: [new EmbedBuilder().setTitle(`Skipped to ${song.name ?? "Unknown"}`).setColor("#00ff00")],
+    if (num >= queue.songs.length || num < 1)
+      return message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("Please specify a valid song number!").setColor("#ff0000")],
       });
+    const song = await distubeClient.jump(message, num);
+    message.channel.send({
+      embeds: [new EmbedBuilder().setTitle(`Skipped to ${song.name ?? "Unknown"}`).setColor("#00ff00")],
     });
   },
 };
