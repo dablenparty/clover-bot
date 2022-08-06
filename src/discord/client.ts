@@ -21,6 +21,7 @@ discordClient
     const cmd =
       discordClient.commands.get(command) || discordClient.commands.get(discordClient.aliases.get(command) ?? "");
     if (!cmd) return;
+    // TODO: change error message
     if (cmd.inVoiceChannel && !message.member?.voice.channel) {
       await message.channel.send(`${discordClient.emotes.error} | You must be in a voice channel!`);
       return;
