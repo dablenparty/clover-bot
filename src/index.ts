@@ -1,7 +1,10 @@
 import { config } from "dotenv";
 import loadCommands from "./commands/commands";
 import discordClient from "./discord/client";
+import ffmpeg from "fluent-ffmpeg";
+import ffmpegPath from "ffmpeg-static";
 config();
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 if (!process.env.DISCORD_TOKEN) {
   console.error("DISCORD_TOKEN is not set!");
