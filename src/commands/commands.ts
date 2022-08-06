@@ -6,7 +6,7 @@ export interface CloverCommand {
   name: string;
   inVoiceChannel?: boolean;
   aliases?: string[];
-  run: (client: Discord.Client, message: Discord.Message, args: string[]) => void;
+  run: (client: Discord.Client, message: Discord.Message, args: string[]) => void | Promise<void>;
 }
 
 /**
