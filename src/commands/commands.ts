@@ -1,6 +1,6 @@
 import Discord from "discord.js";
 import { readdir } from "fs/promises";
-import { join } from "path";
+import { join, basename } from "path";
 
 // TODO: parameter validation
 export interface CloverParameter {
@@ -26,8 +26,9 @@ export interface CloverCommand {
  */
 export default async function loadCommands(client: Discord.Client<boolean>) {
   const path = __dirname;
+  const thisFile = basename(__filename);
   const files = await readdir(path);
-  const jsFiles = files.filter((f) => f.split(".").pop() === "js");
+  const jsFiles = files.filter((f) => f.split(".").pop() === "js" && basename(f) !== thisFile);
   if (jsFiles.length <= 0) throw new Error("Could not find any commands!");
   const commands = new Discord.Collection<string, CloverCommand>();
   const aliases = new Discord.Collection<string, string>();
@@ -39,7 +40,7 @@ export default async function loadCommands(client: Discord.Client<boolean>) {
     }
     if (commands.has(command.name)) {
       //! do not launch the bot if there are duplicate commands
-      throw new Error(`ERROR: ${file} has the same command name as ${commands.get(command.name)?.name}`)
+      throw new Error(`ERROR: ${file} has the same command name as ${commands.get(command.name)?.name}`);
     }
     commands.set(command.name, command);
     if (command.aliases)
