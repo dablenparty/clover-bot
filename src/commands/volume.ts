@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -10,14 +10,14 @@ const command: CloverCommand = {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
       });
       return;
     }
     const volume = parseInt(args[0]);
     if (isNaN(volume)) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a valid volume number!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("Please provide a valid volume number!").setColor(Colors.Red)],
       });
       return;
     }

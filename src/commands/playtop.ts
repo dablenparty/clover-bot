@@ -1,4 +1,4 @@
-import { EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import { Colors, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
 import distubeClient from "../distube";
 import { validateURL, searchYouTubeForVideo } from "../util";
 import { CloverCommand } from "./commands";
@@ -14,7 +14,7 @@ const command: CloverCommand = {
         embeds: [
           new EmbedBuilder()
             .setDescription("Please provide a link to a song or something to search for!")
-            .setColor("#ff0000"),
+            .setColor(Colors.Red),
         ],
       });
       return;
@@ -22,7 +22,7 @@ const command: CloverCommand = {
     const voiceChannel = message.member?.voice.channel;
     if (!voiceChannel) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please join a voice channel first!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("Please join a voice channel first!").setColor(Colors.Red)],
       });
       return;
     }
@@ -33,7 +33,7 @@ const command: CloverCommand = {
       const video = await searchYouTubeForVideo(query);
       if (!video) {
         await message.channel.send({
-          embeds: [new EmbedBuilder().setDescription("No result found!").setColor("#ff0000")],
+          embeds: [new EmbedBuilder().setDescription("No result found!").setColor(Colors.Red)],
         });
         return;
       }

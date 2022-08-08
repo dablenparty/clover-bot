@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -10,7 +10,7 @@ const command: CloverCommand = {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
       });
       return;
     }
@@ -21,7 +21,7 @@ const command: CloverCommand = {
       });
     } else {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle("Not paused").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setTitle("Not paused").setColor(Colors.Red)],
       });
     }
   },

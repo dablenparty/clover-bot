@@ -1,7 +1,7 @@
 // import SoundCloudPlugin from "@distube/soundcloud";
 // import SpotifyPlugin from "@distube/spotify";
 import { YtDlpPlugin } from "@distube/yt-dlp";
-import { EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import DisTube, { Queue } from "distube";
 import config from "../config.json";
 import discordClient from "./discord";
@@ -95,7 +95,7 @@ distubeClient
           new EmbedBuilder()
             .setTitle(`${config.emoji.error} | An error encountered`)
             .setDescription(e.toString().slice(0, 1974))
-            .setColor("#ff0000"),
+            .setColor(Colors.Red),
         ],
       });
     else console.error(e);
@@ -104,14 +104,14 @@ distubeClient
     "empty",
     async (queue) =>
       await queue.textChannel?.send({
-        embeds: [new EmbedBuilder().setTitle("I don't stay in empty voice channels").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setTitle("I don't stay in empty voice channels").setColor(Colors.Red)],
       }),
   )
   .on(
     "searchNoResult",
     async (message, query) =>
       await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle(`No results for "${query}"!`).setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setTitle(`No results for "${query}"!`).setColor(Colors.Red)],
       }),
   )
   .on(

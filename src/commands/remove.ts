@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -9,7 +9,7 @@ const command: CloverCommand = {
   run: async (client, message, args) => {
     if (args.length === 0) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a number to remove!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("Please provide a number to remove!").setColor(Colors.Red)],
       });
       return;
     }
@@ -17,20 +17,20 @@ const command: CloverCommand = {
     const asNum = parseInt(query);
     if (isNaN(asNum)) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a valid number!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("Please provide a valid number!").setColor(Colors.Red)],
       });
       return;
     }
     const queue = distubeClient.getQueue(message);
     if (!queue) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
       });
       return;
     }
     if (asNum > queue.songs.length || asNum < 1) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a valid number!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("Please provide a valid number!").setColor(Colors.Red)],
       });
       return;
     }

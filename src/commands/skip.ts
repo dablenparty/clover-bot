@@ -1,4 +1,4 @@
-import { EmbedBuilder } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
 import { DisTubeError } from "distube";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
@@ -10,7 +10,7 @@ const command: CloverCommand = {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
       });
       return;
     }
@@ -22,13 +22,13 @@ const command: CloverCommand = {
         await queue.stop();
       } else {
         await message.channel.send({
-          embeds: [new EmbedBuilder().setTitle("Error").setDescription(e).setColor("#ff0000")],
+          embeds: [new EmbedBuilder().setTitle("Error").setDescription(e).setColor(Colors.Red)],
         });
         return;
       }
     }
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Skipped ${song?.name ?? "Unknown"}!`).setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle("Skipped!").setColor("#00ff00")],
     });
   },
 };

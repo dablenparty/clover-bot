@@ -1,4 +1,4 @@
-import { Client, EmbedBuilder, GatewayIntentBits } from "discord.js";
+import { Client, Colors, EmbedBuilder, GatewayIntentBits } from "discord.js";
 import config from "../config.json";
 
 const discordClient = new Client({
@@ -28,7 +28,7 @@ discordClient
     // TODO: change error message
     if (cmd.inVoiceChannel && !message.member?.voice.channel) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle("You need to be in a voice channel!").setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setTitle("You need to be in a voice channel!").setColor(Colors.Red)],
       });
       return;
     }
@@ -37,7 +37,7 @@ discordClient
     } catch (e: any) {
       console.error(e);
       await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle("Error").setDescription(`${e}`).setColor("#ff0000")],
+        embeds: [new EmbedBuilder().setTitle("Error").setDescription(`${e}`).setColor(Colors.Red)],
       });
     }
   });
