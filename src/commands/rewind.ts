@@ -30,7 +30,7 @@ const command: CloverCommand = {
     }
     queue.seek(queue.currentTime - time);
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Seeking backward ${time} seconds`).setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle(`Seeking backward ${time} seconds`).setColor(Colors.Green)],
     });
   },
 };

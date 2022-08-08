@@ -21,7 +21,7 @@ const command: CloverCommand = {
           .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
           .setURL(song.url)
           .setThumbnail(song.thumbnail ?? null)
-          .setColor("#00ff00"),
+          .setColor(Colors.Green),
       ],
     });
   },

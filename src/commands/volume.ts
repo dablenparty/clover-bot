@@ -23,7 +23,7 @@ const command: CloverCommand = {
     }
     queue.setVolume(volume);
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Volume set to ${volume}`).setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle(`Volume set to ${volume}`).setColor(Colors.Green)],
     });
   },
 };

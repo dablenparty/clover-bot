@@ -15,7 +15,7 @@ const command: CloverCommand = {
     }
     queue.shuffle();
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle("Shuffled").setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle("Shuffled").setColor(Colors.Green)],
     });
   },
 };

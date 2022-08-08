@@ -16,7 +16,7 @@ const command: CloverCommand = {
     }
     await queue.stop();
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle("Stopped").setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle("Stopped").setColor(Colors.Green)],
     });
   },
 };

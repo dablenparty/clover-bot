@@ -20,7 +20,7 @@ const command: CloverCommand = {
           .setTitle(`Previous: ${song.name ?? "Unknown"}`)
           .setURL(song.url)
           .setThumbnail(song.thumbnail ?? null)
-          .setColor("#00ff00"),
+          .setColor(Colors.Green),
       ],
     });
   },

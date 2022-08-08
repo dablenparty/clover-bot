@@ -28,7 +28,7 @@ const command: CloverCommand = {
       }
     }
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle("Skipped!").setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle("Skipped!").setColor(Colors.Green)],
     });
   },
 };

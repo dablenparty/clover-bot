@@ -29,7 +29,7 @@ const command: CloverCommand = {
       embeds: [
         new EmbedBuilder()
           .setTitle(`Filters: ${queue.filters.size ? queue.filters.names.join(", ") : "off"}`)
-          .setColor(queue.filters.size ? "#00ff00" : Colors.Red),
+          .setColor(queue.filters.size ? Colors.Green : Colors.Red),
       ],
     });
   },

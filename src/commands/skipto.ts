@@ -34,7 +34,7 @@ const command: CloverCommand = {
     }
     const song = await distubeClient.jump(message, num);
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Skipped to ${song.name ?? "Unknown"}`).setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle(`Skipped to ${song.name ?? "Unknown"}`).setColor(Colors.Green)],
     });
   },
 };

@@ -36,7 +36,7 @@ const command: CloverCommand = {
           .setTitle(`${message.guild?.name ?? "This Server"}'s Queue`)
           .setDescription(queueString)
           .setFooter({ text: `Page ${Math.floor(page / 10) + 1}/${maxPages}` })
-          .setColor("#00ff00"),
+          .setColor(Colors.Green),
       ],
     });
   },

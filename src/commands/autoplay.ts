@@ -18,7 +18,7 @@ const command: CloverCommand = {
       embeds: [
         new EmbedBuilder()
           .setTitle(`Autoplay is now ${autoplay ? "on" : "off"}`)
-          .setColor(autoplay ? "#00ff00" : Colors.Red),
+          .setColor(autoplay ? Colors.Green : Colors.Red),
       ],
     });
   },

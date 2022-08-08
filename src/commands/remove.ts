@@ -39,7 +39,7 @@ const command: CloverCommand = {
       embeds: [
         new EmbedBuilder()
           .setDescription(`Removed song ${removedSong[0].name ?? "Unknown"} from the queue!`)
-          .setColor("#00ff00"),
+          .setColor(Colors.Green),
       ],
     });
   },

@@ -58,7 +58,7 @@ distubeClient
             .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
             .setURL(song.url)
             .setImage(song.thumbnail ?? null)
-            .setColor("#00ff00"),
+            .setColor(Colors.Green),
         ],
       }),
   )
@@ -71,7 +71,7 @@ distubeClient
             .setTitle(`Added ${song.name ?? "Unknown"}`)
             .setURL(song.url)
             .setDescription(song.formattedDuration || "")
-            .setColor("#00ff00"),
+            .setColor(Colors.Green),
         ],
       }),
   )
@@ -84,7 +84,7 @@ distubeClient
             .setTitle(`Added ${playlist.name} playlist`)
             .setURL(playlist.url ?? null)
             .setDescription(`${playlist.songs.length} songs`)
-            .setColor("#00ff00"),
+            .setColor(Colors.Green),
         ],
       }),
   )
@@ -118,7 +118,7 @@ distubeClient
     "finish",
     async (queue) =>
       await queue.textChannel?.send({
-        embeds: [new EmbedBuilder().setTitle("Queue finished, leaving...").setColor("#00ff00")],
+        embeds: [new EmbedBuilder().setTitle("Queue finished, leaving...").setColor(Colors.Green)],
       }),
   );
 export default distubeClient;

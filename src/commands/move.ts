@@ -41,7 +41,7 @@ const command: CloverCommand = {
       embeds: [
         new EmbedBuilder()
           .setDescription(`Moved song ${movedSong[0].name ?? "Unknown"} to position ${moveNum}!`)
-          .setColor("#00ff00"),
+          .setColor(Colors.Green),
       ],
     });
   },

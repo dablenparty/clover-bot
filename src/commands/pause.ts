@@ -17,13 +17,13 @@ const command: CloverCommand = {
     if (queue.paused) {
       queue.resume();
       await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle("Resumed").setColor("#00ff00")],
+        embeds: [new EmbedBuilder().setTitle("Resumed").setColor(Colors.Green)],
       });
       return;
     }
     queue.pause();
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle("Paused").setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle("Paused").setColor(Colors.Green)],
     });
   },
 };

@@ -29,7 +29,7 @@ const command: CloverCommand = {
     mode = queue.setRepeatMode(mode);
     mode = mode ? (mode === 2 ? "Repeat queue" : "Repeat song") : "Off";
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Repeat mode is now ${mode}`).setColor("#00ff00")],
+      embeds: [new EmbedBuilder().setTitle(`Repeat mode is now ${mode}`).setColor(Colors.Green)],
     });
   },
 };
