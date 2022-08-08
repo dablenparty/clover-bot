@@ -1,6 +1,5 @@
-import { CloverCommand } from "./commands";
+import { CloverCommand, COMMAND_PREFIX } from "./commands";
 import Discord, { Colors } from "discord.js";
-import config from "../../config.json";
 
 const command: CloverCommand = {
   name: "help",
@@ -21,7 +20,7 @@ const command: CloverCommand = {
           new Discord.EmbedBuilder()
             .setTitle("Commands")
             .setDescription(
-              `Use ${config.prefix}help [command] for help with a specific command\n\n${client.commands
+              `Use ${COMMAND_PREFIX}help [command] for help with a specific command\n\n${client.commands
                 .map((cmd) => `\`${cmd.name}\``)
                 .join(", ")}`,
             )

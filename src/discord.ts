@@ -1,5 +1,6 @@
 import { Client, Colors, EmbedBuilder, GatewayIntentBits } from "discord.js";
 import config from "../config.json";
+import { COMMAND_PREFIX } from "./commands/commands";
 
 const discordClient = new Client({
   intents: [
@@ -14,11 +15,11 @@ discordClient
   .on("ready", () => {
     console.log(`${discordClient.user?.tag ?? "Clover"} is ready to play music.`);
     console.log(`${discordClient.guilds.cache.size} guilds are connected.`);
-    console.log(`Command prefix: ${config.prefix}`);
+    console.log(`Command prefix: ${COMMAND_PREFIX}`);
   })
   .on("messageCreate", async (message) => {
     if (message.author.bot || !message.guild) return;
-    const prefix = config.prefix;
+    const prefix = COMMAND_PREFIX;
     if (!message.content.startsWith(prefix)) return;
     const args = message.content.slice(prefix.length).trim().split(/ +/g);
     const command = args.shift()?.toLowerCase() ?? "";

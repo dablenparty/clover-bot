@@ -19,6 +19,8 @@ export interface CloverCommand {
   run: (client: Discord.Client, message: Discord.Message, args: string[]) => void | Promise<void>;
 }
 
+export const COMMAND_PREFIX = process.env.PREFIX ?? "+";
+
 /**
  * Load commands and aliases into the client.
  *
