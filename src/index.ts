@@ -1,9 +1,9 @@
 import { config } from "dotenv";
+config();
 import loadCommands from "./commands/commands";
 import discordClient from "./discord";
 import ffmpeg from "fluent-ffmpeg";
 import ffmpegPath from "ffmpeg-static";
-config();
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 if (!process.env.DISCORD_TOKEN) {
