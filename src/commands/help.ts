@@ -1,5 +1,5 @@
 import { CloverCommand } from "./commands";
-import Discord from "discord.js";
+import Discord, { Colors } from "discord.js";
 
 const command: CloverCommand = {
   name: "help",
@@ -11,7 +11,7 @@ const command: CloverCommand = {
         new Discord.EmbedBuilder()
           .setTitle("Commands")
           .setDescription(client.commands.map((cmd) => `\`${cmd.name}\``).join(", "))
-          .setColor("#5865F2"),
+          .setColor(Colors.Blurple),
       ],
     });
   },
