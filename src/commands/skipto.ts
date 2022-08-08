@@ -19,6 +19,12 @@ const command: CloverCommand = {
       });
       return;
     }
+    if (queue.songs.length === 1) {
+      await message.channel.send({
+        embeds: [new EmbedBuilder().setDescription("There are no upcoming songs!").setColor(Colors.Red)],
+      });
+      return;
+    }
     const num = Number(args[0]);
     if (isNaN(num)) {
       await message.channel.send({
@@ -28,7 +34,11 @@ const command: CloverCommand = {
     }
     if (num >= queue.songs.length || num < 1) {
       await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please specify a valid song number!").setColor(Colors.Red)],
+        embeds: [
+          new EmbedBuilder()
+            .setDescription(`Please give a number between 1-${queue.songs.length - 1}`)
+            .setColor(Colors.Red),
+        ],
       });
       return;
     }
