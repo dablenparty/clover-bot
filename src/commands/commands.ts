@@ -2,8 +2,18 @@ import Discord from "discord.js";
 import { readdir } from "fs/promises";
 import { join } from "path";
 
+// TODO: parameter validation
+export interface CloverParameter {
+  name: string;
+  description: string;
+  type: "string" | "number" | "boolean" | "user" | "channel" | "role" | "emoji" | "message" | "command";
+  optional?: boolean;
+}
+
 export interface CloverCommand {
   name: string;
+  description: string;
+  parameters?: CloverParameter[];
   inVoiceChannel?: boolean;
   aliases?: string[];
   run: (client: Discord.Client, message: Discord.Message, args: string[]) => void | Promise<void>;
@@ -23,9 +33,20 @@ export default async function loadCommands(client: Discord.Client<boolean>) {
   const aliases = new Discord.Collection<string, string>();
   for (const file of jsFiles) {
     const command: CloverCommand | undefined = (await import(join(path, file)))?.default;
-    if (!command) return console.error(`Could not load command ${file}`);
+    if (!command) {
+      console.error(`Could not load command ${file}`);
+      continue;
+    }
+    if (commands.has(command.name)) {
+      //! do not launch the bot if there are duplicate commands
+      throw new Error(`ERROR: ${file} has the same command name as ${commands.get(command.name)?.name}`)
+    }
     commands.set(command.name, command);
-    if (command.aliases) command.aliases.forEach((alias) => aliases.set(alias, command.name));
+    if (command.aliases)
+      command.aliases.forEach((alias) => {
+        if (aliases.has(alias)) console.warn(`WARNING: ${alias} is already an alias for ${aliases.get(alias)}`);
+        else aliases.set(alias, command.name);
+      });
   }
   console.log("loaded commands: ", [...commands.keys()]);
   client.commands = commands;

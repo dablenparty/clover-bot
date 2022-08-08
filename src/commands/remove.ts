@@ -4,6 +4,14 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "remove",
+  description: "Remove a song from the queue",
+  parameters: [
+    {
+      name: "song",
+      description: "Queue position to remove",
+      type: "number",
+    },
+  ],
   aliases: ["rm"],
   inVoiceChannel: true,
   run: async (client, message, args) => {

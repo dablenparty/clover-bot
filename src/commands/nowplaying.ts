@@ -4,6 +4,7 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "nowplaying",
+  description: "Shows the currently playing song",
   aliases: ["np"],
   inVoiceChannel: true,
   run: async (client, message, args) => {

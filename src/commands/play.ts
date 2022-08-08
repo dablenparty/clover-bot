@@ -5,6 +5,14 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "play",
+  description: "Play a song",
+  parameters: [
+    {
+      name: "song",
+      description: "The song to play, either as a URL or a search term",
+      type: "string",
+    },
+  ],
   aliases: ["p"],
   inVoiceChannel: true,
   run: async (client, message, args) => {

@@ -4,6 +4,14 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "forward",
+  description: "Skip forward a number of seconds",
+  parameters: [
+    {
+      name: "seconds",
+      description: "The number of seconds to skip",
+      type: "number",
+    },
+  ],
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);

@@ -4,6 +4,7 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "resume",
+  description: "Resumes the current song",
   aliases: ["resume", "unpause"],
   inVoiceChannel: true,
   run: async (client, message) => {

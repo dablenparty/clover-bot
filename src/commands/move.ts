@@ -4,6 +4,19 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "move",
+  description: "Move a song to a different position in the queue",
+  parameters: [
+    {
+      name: "song",
+      description: "The song to move",
+      type: "number",
+    },
+    {
+      name: "position",
+      description: "The position to move the song to",
+      type: "number",
+    },
+  ],
   aliases: ["mv"],
   run: async (client, message, args) => {
     if (args.length < 2) {

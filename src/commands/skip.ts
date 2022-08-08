@@ -5,6 +5,8 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "skip",
+  description: "Skip to the next song",
+  aliases: ["next", "s"],
   inVoiceChannel: true,
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);

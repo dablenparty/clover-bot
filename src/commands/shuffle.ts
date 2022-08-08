@@ -4,6 +4,8 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "shuffle",
+  description: "Shuffles the queue",
+  aliases: ["sh"],
   inVoiceChannel: true,
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);

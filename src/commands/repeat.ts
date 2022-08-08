@@ -4,6 +4,15 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "repeat",
+  description: "Set the repeat mode",
+  parameters: [
+    {
+      name: "mode",
+      description: "The repeat mode. Values are: `off`, `song`, and `queue`",
+      type: "string",
+      optional: true,
+    },
+  ],
   aliases: ["loop", "rp"],
   inVoiceChannel: true,
   run: async (client, message, args) => {

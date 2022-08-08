@@ -4,6 +4,15 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "queue",
+  description: "Shows the current queue",
+  parameters: [
+    {
+      name: "page",
+      description: "The page of the queue to show",
+      type: "number",
+      optional: true,
+    },
+  ],
   aliases: ["q"],
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);

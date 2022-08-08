@@ -4,6 +4,14 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "seek",
+  description: "Seek to a specific time in the current song",
+  parameters: [
+    {
+      name: "time",
+      description: "The time to seek to (in seconds)",
+      type: "number",
+    },
+  ],
   inVoiceChannel: true,
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);

@@ -5,6 +5,14 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "playskip",
+  description: "Play a song and skip the currently playing song",
+  parameters: [
+    {
+      name: "song",
+      description: "The song to play, either as a URL or a search term",
+      type: "string",
+    },
+  ],
   aliases: ["ps"],
   inVoiceChannel: true,
   run: async (client, message, args) => {

@@ -4,6 +4,7 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "stop",
+  description: "Stops the queue",
   aliases: ["disconnect", "leave", "clear"],
   inVoiceChannel: true,
   run: async (client, message) => {

@@ -4,6 +4,7 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "autoplay",
+  description: "Toggles autoplay",
   inVoiceChannel: true,
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);

@@ -11,6 +11,11 @@ if (!process.env.DISCORD_TOKEN) {
   process.exit(1);
 }
 
-loadCommands(discordClient);
+try {
+  loadCommands(discordClient);
+} catch (e) {
+  console.error(e);
+  process.exit(1);
+}
 
 discordClient.login(process.env.DISCORD_TOKEN);

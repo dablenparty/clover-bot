@@ -4,6 +4,8 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "previous",
+  description: "Show the previous song",
+  aliases: ["prev"],
   inVoiceChannel: true,
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);

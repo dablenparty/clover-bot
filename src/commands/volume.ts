@@ -4,6 +4,14 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "volume",
+  description: "Sets the volume of the player",
+  parameters: [
+    {
+      name: "volume",
+      description: "The volume to set the player to",
+      type: "number",
+    },
+  ],
   aliases: ["v", "set", "set-volume"],
   inVoiceChannel: true,
   run: async (client, message, args) => {

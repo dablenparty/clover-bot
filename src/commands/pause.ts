@@ -4,6 +4,7 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "pause",
+  description: "Pause the current song",
   aliases: ["pause", "hold"],
   inVoiceChannel: true,
   run: async (client, message) => {

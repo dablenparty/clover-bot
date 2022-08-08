@@ -4,6 +4,14 @@ import { CloverCommand } from "./commands";
 
 const command: CloverCommand = {
   name: "filter",
+  description: "Apply a filter",
+  parameters: [
+    {
+      name: "filter",
+      description: "The filter to apply",
+      type: "string",
+    },
+  ],
   aliases: ["filters"],
   inVoiceChannel: true,
   run: async (client, message, args) => {
