@@ -70,6 +70,7 @@ distubeClient
             .setTitle(`Added ${song.name ?? "Unknown"}`)
             .setURL(song.url)
             .setDescription(song.formattedDuration || "")
+            .setImage(song.thumbnail ?? null)
             .setColor(Colors.Green),
         ],
       }),
