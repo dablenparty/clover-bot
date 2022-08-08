@@ -47,7 +47,6 @@ const distubeClient = new DisTube(discordClient, {
   ],
 });
 
-//! TODO: switch everything to embeds instead of simple messages
 distubeClient
   .on(
     "playSong",
