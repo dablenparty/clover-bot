@@ -36,7 +36,8 @@ const command: CloverCommand = {
       });
       return;
     }
-    queue.seek(queue.currentTime - time);
+    const timeToSeek = Math.min(queue.currentTime - time, 0);
+    queue.seek(timeToSeek);
     await message.channel.send({
       embeds: [new EmbedBuilder().setTitle(`Seeking backward ${time} seconds`).setColor(Colors.Green)],
     });
