@@ -1,4 +1,5 @@
 import { Colors, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import { DisTubeError } from "distube";
 import distubeClient from "../distube";
 import { validateURL, searchYouTubeForVideo } from "../util";
 import { CloverCommand } from "./commands";
@@ -43,12 +44,24 @@ const command: CloverCommand = {
       }
       playString = video.url;
     }
-    await distubeClient.play(voiceChannel, playString, {
-      member: message.member,
-      textChannel: message.channel as GuildTextBasedChannel,
-      message,
-      skip: true,
-    });
+    try {
+      await distubeClient.play(voiceChannel, playString, {
+        member: message.member,
+        textChannel: message.channel as GuildTextBasedChannel,
+        message,
+        skip: true,
+      });
+    } catch (e: any) {
+      if (e instanceof DisTubeError && e.code === "NO_UP_NEXT") {
+        await message.channel.send({
+          embeds: [new EmbedBuilder().setDescription("No next song!").setColor(Colors.Red)],
+        });
+      } else {
+        await message.channel.send({
+          embeds: [new EmbedBuilder().setTitle("Error").setDescription(e).setColor(Colors.Red)],
+        });
+      }
+    }
   },
 };
 
