@@ -14,7 +14,7 @@ ffmpeg.setFfmpegPath(ffmpegPath);
   }
 
   try {
-    loadCommands(discordClient);
+    await loadCommands(discordClient);
   } catch (e) {
     console.error(e);
     process.exit(1);
