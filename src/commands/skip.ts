@@ -16,9 +16,8 @@ const command: CloverCommand = {
       });
       return;
     }
-    let song;
     try {
-      song = await queue.skip();
+      await queue.skip();
     } catch (e: any) {
       if (e instanceof DisTubeError && e.code === "NO_UP_NEXT") {
         await queue.stop();
