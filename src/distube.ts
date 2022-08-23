@@ -54,7 +54,8 @@ distubeClient
       await queue.textChannel?.send({
         embeds: [
           embedStatus(queue, new EmbedBuilder())
-            .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
+            .setTitle(`Now Playing: ${song.name ?? "Unknown"} - ${formatDuration(song.duration * 1000)}`)
+            .setDescription(`Queued by \`${song.user?.tag ?? "Unknown"}\``)
             .setURL(song.url)
             .setImage(song.thumbnail ?? null)
             .setColor(Colors.Green),
