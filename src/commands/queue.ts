@@ -1,4 +1,5 @@
 import { Colors, EmbedBuilder } from "discord.js";
+import formatDuration from "format-duration";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -25,7 +26,7 @@ const command: CloverCommand = {
     const maxPages = Math.ceil(queue.songs.length / 10);
     // effective pagination
     let page = 0;
-    if (args.length >= 0) {
+    if (args.length > 0) {
       const fromArgs = parseInt(args[0]);
       if (!isNaN(fromArgs)) page = fromArgs - 1;
     }
@@ -36,7 +37,9 @@ const command: CloverCommand = {
     const nowPlaying = queue.songs[0];
     const thisPage = queue.songs.slice(page, page + 10);
     // TODO: show time left
-    let queueString = `**Now playing:** ${nowPlaying.name}\n\n**Up next:**\n`;
+    let queueString = `**Now playing:** ${nowPlaying.name}\n\`${formatDuration(
+      queue.currentTime * 1000,
+    )}\` - \`${formatDuration(nowPlaying.duration * 1000)}\`\n\n**Up next:**\n`;
     const mappedPage = thisPage.map((song, i) => `${i + page}) \`${song.name}\` - \`${song.formattedDuration}\``);
     queueString += mappedPage.length === 0 ? "Nothing!" : mappedPage.join("\n");
     await message.channel.send({
