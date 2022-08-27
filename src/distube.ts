@@ -10,13 +10,8 @@ import discordClient from "./discord";
 const embedStatus = (queue: Queue, builder: EmbedBuilder): EmbedBuilder =>
   builder.addFields([
     {
-      name: "Volume",
-      value: `\`${queue.volume}%\``,
-      inline: true,
-    },
-    {
-      name: "Filter",
-      value: `\`${queue.filters.names.join(", ") || "Off"}\``,
+      name: "Queued by",
+      value: `\`${queue.songs[0].user?.tag ?? "Unknown"}\``,
       inline: true,
     },
     {
@@ -49,19 +44,16 @@ const distubeClient = new DisTube(discordClient, {
 });
 
 distubeClient
-  .on(
-    "playSong",
-    async (queue, song) =>
-      queue.textChannel?.send({
-        embeds: [
-          embedStatus(queue, new EmbedBuilder())
-            .setTitle(`Now Playing: ${song.name ?? "Unknown"} - ${formatDuration(song.duration * 1000)}`)
-            .setDescription(`Queued by \`${song.user?.tag ?? "Unknown"}\``)
-            .setURL(song.url)
-            .setImage(song.thumbnail ?? null)
-            .setColor(Colors.Green),
-        ],
-      }),
+  .on("playSong", async (queue, song) =>
+    queue.textChannel?.send({
+      embeds: [
+        embedStatus(queue, new EmbedBuilder())
+          .setTitle(`Now Playing: ${song.name ?? "Unknown"} - ${formatDuration(song.duration * 1000)}`)
+          .setURL(song.url)
+          .setImage(song.thumbnail ?? null)
+          .setColor(Colors.Green),
+      ],
+    }),
   )
   .on("addSong", async (queue, song) =>
     queue.textChannel?.send({
