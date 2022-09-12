@@ -30,6 +30,7 @@ const command: CloverCommand = {
       const fromArgs = parseInt(args[0]);
       if (!isNaN(fromArgs)) page = fromArgs - 1;
     }
+    const queueRuntime = queue.songs.reduce((acc, song) => acc + song.duration * 1000, 0) - queue.currentTime * 1000;
     // saturate pages between 0 and maxPages
     // multiply by 10 because there are (max) 10 songs per page
     // add one for the song that is currently playing
@@ -39,7 +40,9 @@ const command: CloverCommand = {
     // TODO: show time left
     let queueString = `**Now playing:** ${nowPlaying.name}\n\`${formatDuration(
       queue.currentTime * 1000,
-    )}\` - \`${formatDuration(nowPlaying.duration * 1000)}\`\n\n**Up next:**\n`;
+    )}\` - \`${formatDuration(nowPlaying.duration * 1000)}\`\n\n**Time remaining:** \`${formatDuration(
+      queueRuntime,
+    )}\`\n\n**Up next:**\n`;
     const mappedPage = thisPage.map((song, i) => `${i + page}) \`${song.name}\` - \`${song.formattedDuration}\``);
     queueString += mappedPage.length === 0 ? "Nothing!" : mappedPage.join("\n");
     await message.channel.send({
