@@ -15,6 +15,11 @@ const embedStatus = (queue: Queue, builder: EmbedBuilder): EmbedBuilder =>
       inline: true,
     },
     {
+      name: "Duration",
+      value: `\`${queue.songs[0].formattedDuration || formatDuration(queue.songs[0].duration * 1000)}\``,
+      inline: true,
+    },
+    {
       name: "Loop",
       value: `\`${queue.repeatMode ? (queue.repeatMode === 2 ? "All Queue" : "This Song") : "Off"}\``,
       inline: true,
@@ -48,7 +53,7 @@ distubeClient
     queue.textChannel?.send({
       embeds: [
         embedStatus(queue, new EmbedBuilder())
-          .setTitle(`Now Playing: ${song.name ?? "Unknown"} - ${formatDuration(song.duration * 1000)}`)
+          .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
           .setURL(song.url)
           .setImage(song.thumbnail ?? null)
           .setColor(Colors.Green),
@@ -61,7 +66,7 @@ distubeClient
         new EmbedBuilder()
           .setTitle(`Added ${song.name ?? "Unknown"}`)
           .setURL(song.url)
-          .setDescription(song.formattedDuration || "")
+          .setDescription(`\`${song.formattedDuration || formatDuration(song.duration * 1000)}\``)
           .setImage(song.thumbnail ?? null)
           .setColor(Colors.Green),
       ],
