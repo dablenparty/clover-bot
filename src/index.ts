@@ -5,6 +5,9 @@ import discordClient from "./discord";
 import ffmpeg from "fluent-ffmpeg";
 import ffmpegPath from "ffmpeg-static";
 import { ActivityType } from "discord.js";
+if (!ffmpegPath) {
+  throw new Error("ffmpeg not found");
+}
 ffmpeg.setFfmpegPath(ffmpegPath);
 
 (async () => {
