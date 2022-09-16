@@ -44,11 +44,17 @@ const command: CloverCommand = {
       playString = video.url;
     }
     // the type cast should work as this bot should only be used in a guild
-    await distubeClient.play(voiceChannel, playString, {
-      member: message.member,
-      textChannel: message.channel as GuildTextBasedChannel,
-      message,
-    });
+    try {
+      await distubeClient.play(voiceChannel, playString, {
+        member: message.member,
+        textChannel: message.channel as GuildTextBasedChannel,
+        message,
+      });
+    } catch (e: any) {
+      await message.channel.send({
+        embeds: [new EmbedBuilder().setDescription(`${e}`).setColor(Colors.Red)],
+      });
+    }
   },
 };
 
