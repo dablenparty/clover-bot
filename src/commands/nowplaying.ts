@@ -1,5 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import formatDuration from "format-duration";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -11,10 +12,7 @@ const command: CloverCommand = {
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
-      });
-      return;
+      throw new EmptyQueueError();
     }
     const song = queue.songs[0];
     await message.channel.send({
@@ -22,7 +20,7 @@ const command: CloverCommand = {
         new EmbedBuilder()
           .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
           .setDescription(
-            `${formatDuration((song.duration - queue.currentTime) * 1000)} remaining\nQueued by \`${
+            `\`${formatDuration((song.duration - queue.currentTime) * 1000)}\` remaining\nQueued by \`${
               song.user?.tag ?? "Unknown"
             }\``,
           )

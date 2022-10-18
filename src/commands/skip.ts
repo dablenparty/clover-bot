@@ -1,5 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import { DisTubeError } from "distube";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -11,10 +12,7 @@ const command: CloverCommand = {
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
-      });
-      return;
+      throw new EmptyQueueError();
     }
     try {
       await queue.skip();

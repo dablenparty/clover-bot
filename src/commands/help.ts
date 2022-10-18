@@ -1,5 +1,6 @@
 import { CloverCommand, COMMAND_PREFIX } from "./commands";
-import Discord, { Colors } from "discord.js";
+import { Colors, EmbedBuilder } from "discord.js";
+import CommandNotFoundError from "../@types/errors/CommandNotFound";
 
 const command: CloverCommand = {
   name: "help",
@@ -17,7 +18,7 @@ const command: CloverCommand = {
     if (!args[0]) {
       await message.channel.send({
         embeds: [
-          new Discord.EmbedBuilder()
+          new EmbedBuilder()
             .setTitle("Commands")
             .setDescription(
               `Use ${COMMAND_PREFIX}help [command] for help with a specific command\n\n${client.commands
@@ -30,17 +31,9 @@ const command: CloverCommand = {
     } else {
       const command = client.commands.get(args[0]);
       if (!command) {
-        await message.channel.send({
-          embeds: [
-            new Discord.EmbedBuilder()
-              .setTitle("Command not found")
-              .setDescription(`Command \`${args[0]}\` not found`)
-              .setColor(Colors.Red),
-          ],
-        });
-        return;
+        throw new CommandNotFoundError(args[0]);
       }
-      const embed = new Discord.EmbedBuilder()
+      const embed = new EmbedBuilder()
         .setTitle(`Help: ${command.name}`)
         .setDescription(command.description)
         .setColor(Colors.Blurple);

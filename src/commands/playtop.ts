@@ -1,4 +1,7 @@
 import { Colors, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import BadCommandArgsError from "../@types/errors/BadCommandArgs";
+import NotInChannelError from "../@types/errors/NotInChannel";
+import SongNotFoundError from "../@types/errors/SongNotFound";
 import distubeClient from "../distube";
 import { validateURL, searchYouTubeForVideo } from "../util";
 import { CloverCommand } from "./commands";
@@ -18,21 +21,11 @@ const command: CloverCommand = {
   run: async (client, message, args) => {
     const query = args.join(" ");
     if (!query) {
-      await message.channel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription("Please provide a link to a song or something to search for!")
-            .setColor(Colors.Red),
-        ],
-      });
-      return;
+      throw new BadCommandArgsError("playtop", "No song provided");
     }
     const voiceChannel = message.member?.voice.channel;
     if (!voiceChannel) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please join a voice channel first!").setColor(Colors.Red)],
-      });
-      return;
+      throw new NotInChannelError(message.member?.user?.tag ?? "Unknown user");
     }
     let playString;
     if (validateURL(query)) {
@@ -40,10 +33,7 @@ const command: CloverCommand = {
     } else {
       const video = await searchYouTubeForVideo(query);
       if (!video) {
-        await message.channel.send({
-          embeds: [new EmbedBuilder().setDescription("No result found!").setColor(Colors.Red)],
-        });
-        return;
+        throw new SongNotFoundError(query);
       }
       playString = video.url;
     }

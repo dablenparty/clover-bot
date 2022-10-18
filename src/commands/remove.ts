@@ -1,4 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
+import BadCommandArgsError from "../@types/errors/BadCommandArgs";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -16,31 +18,19 @@ const command: CloverCommand = {
   inVoiceChannel: true,
   run: async (client, message, args) => {
     if (args.length === 0) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a number to remove!").setColor(Colors.Red)],
-      });
-      return;
+      throw new BadCommandArgsError("remove", "No song number provided");
+    }
+    const queue = distubeClient.getQueue(message);
+    if (!queue) {
+      throw new EmptyQueueError();
     }
     const query = args[0];
     const asNum = parseInt(query);
     if (isNaN(asNum)) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a valid number!").setColor(Colors.Red)],
-      });
-      return;
-    }
-    const queue = distubeClient.getQueue(message);
-    if (!queue) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
-      });
-      return;
+      throw new BadCommandArgsError("remove", `${query} is not a valid number`);
     }
     if (asNum > queue.songs.length || asNum < 1) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a valid number!").setColor(Colors.Red)],
-      });
-      return;
+      throw new BadCommandArgsError("remove", `${query} is not a valid queue position`);
     }
     const removedSong = queue.songs.splice(asNum, 1);
     await message.channel.send({

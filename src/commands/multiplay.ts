@@ -1,4 +1,5 @@
 import { Colors, EmbedBuilder } from "discord.js";
+import BadCommandArgsError from "../@types/errors/BadCommandArgs";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 import play from "./play";
@@ -16,15 +17,13 @@ const command: CloverCommand = {
   aliases: ["mp"],
   run: async (client, message, args) => {
     if (args.length < 1) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide at least one song to play!").setColor(Colors.Red)],
-      });
-      return;
+      throw new BadCommandArgsError("multiplay", "No songs provided");
     }
     const songs = args
       .join(" ")
       .split(",")
-      .map((q) => q.trim());
+      .map((q) => q.trim())
+      .filter((q) => q.length > 0);
     const queue = distubeClient.getQueue(message);
     if (!queue?.songs.length) {
       // adding multiple songs to an empty queue will bug out the bot
@@ -59,7 +58,7 @@ const command: CloverCommand = {
       });
     }
     await message.channel.send({
-      embeds: [new EmbedBuilder().setDescription(`Queued ${successCount} songs!`).setColor(Colors.Green)],
+      embeds: [new EmbedBuilder().setTitle(`Queued ${successCount} songs!`).setColor(Colors.Green)],
     });
   },
 };
