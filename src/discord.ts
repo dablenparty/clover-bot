@@ -1,6 +1,8 @@
 import { Client, Colors, EmbedBuilder, GatewayIntentBits } from "discord.js";
 import config from "../config.json";
+import BadCommandArgsError from "./@types/errors/BadCommandArgs";
 import { COMMAND_PREFIX } from "./commands/commands";
+import helpCommand from "./commands/help";
 
 const discordClient = new Client({
   intents: [
@@ -35,10 +37,13 @@ discordClient
     try {
       await cmd.run(discordClient, message, args);
     } catch (e: any) {
-      console.error(e);
+      let description = e instanceof Error ? e.message : `${e}`;
       await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle("Error").setDescription(`${e}`).setColor(Colors.Red)],
+        embeds: [new EmbedBuilder().setTitle(`Error`).setDescription(description).setColor(Colors.Red)],
       });
+      if (e instanceof BadCommandArgsError) {
+        helpCommand.run(discordClient, message, [cmd.name]);
+      }
     }
   });
 
