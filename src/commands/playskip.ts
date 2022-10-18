@@ -57,9 +57,7 @@ const command: CloverCommand = {
           embeds: [new EmbedBuilder().setDescription("No next song!").setColor(Colors.Red)],
         });
       } else {
-        await message.channel.send({
-          embeds: [new EmbedBuilder().setTitle("Error").setDescription(e).setColor(Colors.Red)],
-        });
+        throw e;
       }
     }
   },

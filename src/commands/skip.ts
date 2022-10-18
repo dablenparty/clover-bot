@@ -22,10 +22,7 @@ const command: CloverCommand = {
       if (e instanceof DisTubeError && e.code === "NO_UP_NEXT") {
         await queue.stop();
       } else {
-        await message.channel.send({
-          embeds: [new EmbedBuilder().setTitle("Error").setDescription(e).setColor(Colors.Red)],
-        });
-        return;
+        throw e;
       }
     }
     await message.channel.send({
