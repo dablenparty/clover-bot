@@ -25,14 +25,13 @@ const command: CloverCommand = {
     if (!queue) {
       throw new EmptyQueueError();
     }
-    const maxPages = Math.ceil(queue.songs.length / 10);
+    const maxPages = Math.ceil((queue.songs.length - 1) / 10);
     // effective pagination
     let page = 0;
     if (args.length > 0) {
       const fromArgs = parseInt(args[0]);
       if (!isNaN(fromArgs)) page = fromArgs - 1;
     }
-    const queueRuntime = queue.songs.reduce((acc, song) => acc + song.duration * 1000, 0) - queue.currentTime * 1000;
     // saturate pages between 0 and maxPages
     // multiply by 10 because there are (max) 10 songs per page
     // add one for the song that is currently playing
