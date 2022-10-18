@@ -35,7 +35,6 @@ const command: CloverCommand = {
     page = Math.max(0, Math.min(page, maxPages - 1)) * 10 + 1;
     const nowPlaying = queue.songs[0];
     const thisPage = queue.songs.slice(page, page + 10);
-    // TODO: show time left
     let queueString = `**Now playing:** ${nowPlaying.name}\n\`${formatDuration(
       queue.currentTime * 1000,
     )}\` - \`${formatDuration(nowPlaying.duration * 1000)}\`\n\n**Time remaining:** \`${formatDuration(
