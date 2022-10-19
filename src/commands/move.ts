@@ -1,4 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
+import BadCommandArgsError from "../@types/errors/BadCommandArgs";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -20,33 +22,23 @@ const command: CloverCommand = {
   aliases: ["mv"],
   run: async (client, message, args) => {
     if (args.length < 2) {
-      await message.channel.send({
-        embeds: [
-          new EmbedBuilder().setDescription("Please provide a song number and number to move!").setColor(Colors.Red),
-        ],
-      });
-      return;
-    }
-    const songNum = parseInt(args[0]);
-    const moveNum = parseInt(args[1]);
-    if (isNaN(songNum) || isNaN(moveNum)) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a valid number!").setColor(Colors.Red)],
-      });
-      return;
+      throw new BadCommandArgsError("move", "Not enough arguments provided");
     }
     const queue = distubeClient.getQueue(message);
     if (!queue) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
-      });
-      return;
+      throw new EmptyQueueError();
     }
-    if (songNum > queue.songs.length || songNum < 1 || moveNum > queue.songs.length || moveNum < 1) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a valid number!").setColor(Colors.Red)],
-      });
-      return;
+    const songNum = parseInt(args[0]);
+    const moveNum = parseInt(args[1]);
+    if (isNaN(songNum)) {
+      throw new BadCommandArgsError("move", `Song '${args[0]}' is not a number`);
+    } else if (isNaN(moveNum)) {
+      throw new BadCommandArgsError("move", `Position ${args[1]} is not a number`);
+    }
+    if (songNum > queue.songs.length || songNum < 1) {
+      throw new BadCommandArgsError("move", `Song ${songNum} is not in the queue`);
+    } else if (moveNum > queue.songs.length || moveNum < 1) {
+      throw new BadCommandArgsError("move", `Position ${moveNum} is not in the queue`);
     }
     const movedSong = queue.songs.splice(songNum, 1);
     queue.songs.splice(moveNum, 0, movedSong[0]);

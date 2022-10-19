@@ -3,8 +3,11 @@
     "play": "▶️",
     "stop": "⏹️",
     "queue": "📄",
-    "success": "☑️",
+    "success": "✅",
     "repeat": "🔁",
-    "error": "❌"
+    "error": "❌",
+    "help": "❔",
+    "pause": "⏸️",
+    "shuffle": "🔀"
   }
 }

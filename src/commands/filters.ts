@@ -1,4 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
+import BadCommandArgsError from "../@types/errors/BadCommandArgs";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -17,10 +19,7 @@ const command: CloverCommand = {
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
-      });
-      return;
+      throw new EmptyQueueError();
     }
     const filter = args[0];
     if (filter === "off" && queue.filters.size) queue.filters.clear();
@@ -28,10 +27,7 @@ const command: CloverCommand = {
       if (queue.filters.has(filter)) queue.filters.remove(filter);
       else queue.filters.add(filter);
     } else if (args[0]) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a valid filter!").setColor(Colors.Red)],
-      });
-      return;
+      throw new BadCommandArgsError("filter", "Invalid filter provided");
     }
     await message.channel.send({
       embeds: [

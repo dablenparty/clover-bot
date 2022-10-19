@@ -1,4 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -9,16 +11,13 @@ const command: CloverCommand = {
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
-      });
-      return;
+      throw new EmptyQueueError();
     }
     const autoplay = queue.toggleAutoplay();
     await message.channel.send({
       embeds: [
         new EmbedBuilder()
-          .setTitle(`Autoplay is now ${autoplay ? "on" : "off"}`)
+          .setTitle(`Autoplay is now ${autoplay ? `on ${config.emoji.play} ` : `off ${config.emoji.stop}`}`)
           .setColor(autoplay ? Colors.Green : Colors.Red),
       ],
     });

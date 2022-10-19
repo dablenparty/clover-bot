@@ -1,5 +1,7 @@
-import { Colors, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
-import { DisTubeError } from "distube";
+import { GuildTextBasedChannel } from "discord.js";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
+import NotInChannelError from "../@types/errors/NotInChannel";
+import SongNotFoundError from "../@types/errors/SongNotFound";
 import distubeClient from "../distube";
 import { validateURL, searchYouTubeForVideo } from "../util";
 import { CloverCommand } from "./commands";
@@ -19,17 +21,11 @@ const command: CloverCommand = {
   run: async (client, message, args) => {
     const query = args.join(" ");
     if (!query) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please provide a link to a song!").setColor(Colors.Red)],
-      });
-      return;
+      throw new EmptyQueueError();
     }
     const voiceChannel = message.member?.voice.channel;
     if (!voiceChannel) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please join a voice channel first!").setColor(Colors.Red)],
-      });
-      return;
+      throw new NotInChannelError(message.member?.user?.tag ?? "Unknown user");
     }
     let playString;
     if (validateURL(query)) {
@@ -37,29 +33,16 @@ const command: CloverCommand = {
     } else {
       const video = await searchYouTubeForVideo(query);
       if (!video) {
-        await message.channel.send({
-          embeds: [new EmbedBuilder().setDescription("No result found!").setColor(Colors.Red)],
-        });
-        return;
+        throw new SongNotFoundError(query);
       }
       playString = video.url;
     }
-    try {
-      await distubeClient.play(voiceChannel, playString, {
-        member: message.member,
-        textChannel: message.channel as GuildTextBasedChannel,
-        message,
-        skip: true,
-      });
-    } catch (e: any) {
-      if (e instanceof DisTubeError && e.code === "NO_UP_NEXT") {
-        await message.channel.send({
-          embeds: [new EmbedBuilder().setDescription("No next song!").setColor(Colors.Red)],
-        });
-      } else {
-        throw e;
-      }
-    }
+    await distubeClient.play(voiceChannel, playString, {
+      member: message.member,
+      textChannel: message.channel as GuildTextBasedChannel,
+      message,
+      skip: true,
+    });
   },
 };
 

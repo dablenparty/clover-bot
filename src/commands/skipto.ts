@@ -1,4 +1,7 @@
 import { Colors, EmbedBuilder } from "discord.js";
+import BadCommandArgsError from "../@types/errors/BadCommandArgs";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -11,16 +14,10 @@ const command: CloverCommand = {
   run: async (client, message, args) => {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
-      });
-      return;
+      throw new EmptyQueueError();
     }
     if (!args[0]) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please specify a song number!").setColor(Colors.Red)],
-      });
-      return;
+      throw new BadCommandArgsError("skipto", "No song provided");
     }
     if (queue.songs.length === 1) {
       await message.channel.send({
@@ -30,24 +27,14 @@ const command: CloverCommand = {
     }
     const num = Number(args[0]);
     if (isNaN(num)) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("Please specify a valid song number!").setColor(Colors.Red)],
-      });
-      return;
+      throw new BadCommandArgsError("skipto", `${args[0]} is not a valid number`);
     }
     if (num >= queue.songs.length || num < 1) {
-      await message.channel.send({
-        embeds: [
-          new EmbedBuilder()
-            .setDescription(`Please give a number between 1-${queue.songs.length - 1}`)
-            .setColor(Colors.Red),
-        ],
-      });
-      return;
+      throw new BadCommandArgsError("skipto", `${args[0]} is not a valid queue position`);
     }
     const song = await distubeClient.jump(message, num);
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Skipped to ${song.name ?? "Unknown"}`).setColor(Colors.Green)],
+      embeds: [new EmbedBuilder().setTitle(`${config.emoji.success} Skipped to ${song.name ?? "Unknown"}`).setColor(Colors.Green)],
     });
   },
 };

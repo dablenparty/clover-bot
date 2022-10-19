@@ -1,4 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
+import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -10,21 +12,17 @@ const command: CloverCommand = {
   run: async (client, message) => {
     const queue = distubeClient.getQueue(message);
     if (!queue) {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setDescription("There is nothing in the queue right now!").setColor(Colors.Red)],
-      });
-      return;
+      throw new EmptyQueueError();
     }
+    let title = `${config.emoji.pause} Paused`;
     if (queue.paused) {
       queue.resume();
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle("Resumed").setColor(Colors.Green)],
-      });
-      return;
+      title = `${config.emoji.play} Resumed`;
+    } else {
+      queue.pause();
     }
-    queue.pause();
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle("Paused").setColor(Colors.Green)],
+      embeds: [new EmbedBuilder().setTitle(title).setColor(Colors.Green)],
     });
   },
 };
