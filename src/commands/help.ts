@@ -35,7 +35,7 @@ const command: CloverCommand = {
         throw new CommandNotFoundError(args[0]);
       }
       const embed = new EmbedBuilder()
-        .setTitle(`Help: ${command.name}`)
+        .setTitle(`${config.emoji.help} Help: ${command.name}`)
         .setDescription(command.description)
         .setColor(Colors.Blurple);
       if (command.aliases) {
