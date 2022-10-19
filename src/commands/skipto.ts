@@ -1,6 +1,7 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import BadCommandArgsError from "../@types/errors/BadCommandArgs";
 import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -33,7 +34,7 @@ const command: CloverCommand = {
     }
     const song = await distubeClient.jump(message, num);
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Skipped to ${song.name ?? "Unknown"}`).setColor(Colors.Green)],
+      embeds: [new EmbedBuilder().setTitle(`${config.emoji.success} Skipped to ${song.name ?? "Unknown"}`).setColor(Colors.Green)],
     });
   },
 };

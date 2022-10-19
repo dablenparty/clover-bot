@@ -1,5 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -16,12 +17,10 @@ const command: CloverCommand = {
     if (queue.paused) {
       queue.resume();
       await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle("Resumed").setColor(Colors.Green)],
+        embeds: [new EmbedBuilder().setTitle(`${config.emoji.play} Resumed`).setColor(Colors.Green)],
       });
     } else {
-      await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle("Not paused").setColor(Colors.Red)],
-      });
+      throw new Error("The queue is not paused");
     }
   },
 };

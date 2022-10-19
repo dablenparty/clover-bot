@@ -1,5 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -16,7 +17,7 @@ const command: CloverCommand = {
     await message.channel.send({
       embeds: [
         new EmbedBuilder()
-          .setTitle(`Autoplay is now ${autoplay ? "on" : "off"}`)
+          .setTitle(`Autoplay is now ${autoplay ? `on ${config.emoji.play} ` : `off ${config.emoji.stop}`}`)
           .setColor(autoplay ? Colors.Green : Colors.Red),
       ],
     });

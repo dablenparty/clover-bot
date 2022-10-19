@@ -1,5 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import BadCommandArgsError from "../@types/errors/BadCommandArgs";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 import play from "./play";
@@ -46,7 +47,7 @@ const command: CloverCommand = {
       } else {
         errors.push(
           new EmbedBuilder()
-            .setTitle(`Error playing '${songs[i]}'`)
+            .setTitle(`${config.emoji.error} Error playing '${songs[i]}'`)
             .setDescription(`${result.reason}`)
             .setColor(Colors.Red),
         );

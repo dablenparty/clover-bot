@@ -1,5 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -15,7 +16,7 @@ const command: CloverCommand = {
     }
     queue.shuffle();
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle("Shuffled").setColor(Colors.Green)],
+      embeds: [new EmbedBuilder().setTitle(`${config.emoji.shuffle} Shuffled`).setColor(Colors.Green)],
     });
   },
 };

@@ -39,7 +39,9 @@ discordClient
     } catch (e: any) {
       let description = e instanceof Error ? e.message : `${e}`;
       await message.channel.send({
-        embeds: [new EmbedBuilder().setTitle(`Error`).setDescription(description).setColor(Colors.Red)],
+        embeds: [
+          new EmbedBuilder().setTitle(`${config.emoji.error} Error`).setDescription(description).setColor(Colors.Red),
+        ],
       });
       if (e instanceof BadCommandArgsError) {
         helpCommand.run(discordClient, message, [cmd.name]);

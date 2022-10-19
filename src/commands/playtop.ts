@@ -1,4 +1,4 @@
-import { Colors, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
+import { GuildTextBasedChannel } from "discord.js";
 import BadCommandArgsError from "../@types/errors/BadCommandArgs";
 import NotInChannelError from "../@types/errors/NotInChannel";
 import SongNotFoundError from "../@types/errors/SongNotFound";

@@ -1,5 +1,4 @@
-import { Colors, EmbedBuilder, GuildTextBasedChannel } from "discord.js";
-import { DisTubeError } from "distube";
+import { GuildTextBasedChannel } from "discord.js";
 import EmptyQueueError from "../@types/errors/EmptyQueue";
 import NotInChannelError from "../@types/errors/NotInChannel";
 import SongNotFoundError from "../@types/errors/SongNotFound";

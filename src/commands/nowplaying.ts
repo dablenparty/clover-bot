@@ -1,6 +1,7 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import formatDuration from "format-duration";
 import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -18,7 +19,7 @@ const command: CloverCommand = {
     await message.channel.send({
       embeds: [
         new EmbedBuilder()
-          .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
+          .setTitle(`${config.emoji.play} Now Playing: ${song.name ?? "Unknown"}`)
           .setDescription(
             `\`${formatDuration((song.duration - queue.currentTime) * 1000)}\` remaining\nQueued by \`${
               song.user?.tag ?? "Unknown"

@@ -1,5 +1,6 @@
 import { Colors, EmbedBuilder } from "discord.js";
 import EmptyQueueError from "../@types/errors/EmptyQueue";
+import config from "../../config.json";
 import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
@@ -36,7 +37,7 @@ const command: CloverCommand = {
     mode = queue.setRepeatMode(mode);
     mode = mode ? (mode === 2 ? "Repeat queue" : "Repeat song") : "Off";
     await message.channel.send({
-      embeds: [new EmbedBuilder().setTitle(`Repeat mode is now ${mode}`).setColor(Colors.Green)],
+      embeds: [new EmbedBuilder().setTitle(`${config.emoji.repeat} Repeat mode is now ${mode}`).setColor(Colors.Green)],
     });
   },
 };

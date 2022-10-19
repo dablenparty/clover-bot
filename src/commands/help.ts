@@ -1,6 +1,7 @@
 import { CloverCommand, COMMAND_PREFIX } from "./commands";
 import { Colors, EmbedBuilder } from "discord.js";
 import CommandNotFoundError from "../@types/errors/CommandNotFound";
+import config from "../../config.json";
 
 const command: CloverCommand = {
   name: "help",
@@ -19,7 +20,7 @@ const command: CloverCommand = {
       await message.channel.send({
         embeds: [
           new EmbedBuilder()
-            .setTitle("Commands")
+            .setTitle(`${config.emoji.help} Commands`)
             .setDescription(
               `Use ${COMMAND_PREFIX}help [command] for help with a specific command\n\n${client.commands
                 .map((cmd) => `\`${cmd.name}\``)

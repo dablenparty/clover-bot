@@ -53,7 +53,7 @@ distubeClient
     queue.textChannel?.send({
       embeds: [
         embedStatus(queue, new EmbedBuilder())
-          .setTitle(`Now Playing: ${song.name ?? "Unknown"}`)
+          .setTitle(`${config.emoji.play} Now Playing: ${song.name ?? "Unknown"}`)
           .setURL(song.url)
           .setImage(song.thumbnail ?? null)
           .setColor(Colors.Green),
@@ -64,7 +64,7 @@ distubeClient
     queue.textChannel?.send({
       embeds: [
         new EmbedBuilder()
-          .setTitle(`Added ${song.name ?? "Unknown"}`)
+          .setTitle(`${config.emoji.success} Added ${song.name ?? "Unknown"}`)
           .setURL(song.url)
           .setDescription(`\`${song.formattedDuration || formatDuration(song.duration * 1000)}\``)
           .setImage(song.thumbnail ?? null)
