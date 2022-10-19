@@ -30,7 +30,7 @@ const command: CloverCommand = {
         ],
       });
     } else {
-      const command = client.commands.get(args[0]);
+      const command = client.commands.get(args[0]) || client.commands.get(client.aliases.get(args[0]) ?? "");
       if (!command) {
         throw new CommandNotFoundError(args[0]);
       }
