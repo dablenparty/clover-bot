@@ -5,6 +5,9 @@
     "queue": "📄",
     "success": "✅",
     "repeat": "🔁",
-    "error": "❌"
+    "error": "❌",
+    "help": "❔",
+    "pause": "⏸️",
+    "shuffle": "🔀"
   }
 }
