@@ -6,7 +6,7 @@ import distubeClient from "../distube";
 import { CloverCommand } from "./commands";
 
 // how long the timeline can be, in characters
-const MAX_TIMELINE_LENGTH = 52;
+const MAX_TIMELINE_LENGTH = 36;
 
 const command: CloverCommand = {
   name: "queue",
