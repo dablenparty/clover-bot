@@ -63,7 +63,7 @@ function makeTimeline(currentTime: number, duration: number): string {
   const charsLeft = MAX_TIMELINE_LENGTH - currentTimeString.length - durationString.length;
   const filled = Math.floor(progress * charsLeft);
   const empty = charsLeft - filled;
-  return `\`${currentTimeString}\` [${"=".repeat(filled)}${"-".repeat(empty)}] \`${durationString}\``;
+  return `\`${currentTimeString}\` |${"█".repeat(filled)}${"░".repeat(empty)}| \`${durationString}\``;
 }
 
 export default command;
