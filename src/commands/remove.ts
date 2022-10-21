@@ -24,7 +24,7 @@ const command: CloverCommand = {
     if (!queue) {
       throw new EmptyQueueError();
     }
-    const query = args.length > 1 ? parseInt(args[0]) : queue.songs.length - 1;
+    const query = args.length > 0 ? parseInt(args[0]) : queue.songs.length - 1;
     if (isNaN(query)) {
       throw new BadCommandArgsError("remove", `${args[0]} is not a valid number`);
     }
